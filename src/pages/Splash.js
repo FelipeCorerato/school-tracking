@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 
+import { firebaseConfig } from '../config';
+
 export default class Splash extends React.Component {
     // constructor(props) {
     //     super(props);
@@ -16,9 +18,9 @@ export default class Splash extends React.Component {
     //     }
     // }
 
-    // static navigationOptions = {
-    //     header: null
-    // }
+    static navigationOptions = {
+        header: null
+    }
 
     // componentWillMount() {
     //     // Initialize Firebase

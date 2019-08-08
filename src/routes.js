@@ -22,6 +22,7 @@ const AuthStack = createStackNavigator(
     },
     { 
         defaultNavigationOptions: { 
+            header: null,
             headerTintColor: '#000', 
             headerBackTitle: null 
         }
