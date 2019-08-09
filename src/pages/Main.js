@@ -1,29 +1,49 @@
 import React from 'react';
 import {
     View,
+    SafeAreaView,
     TouchableOpacity,
     Text,
     StyleSheet,
-    Image
+    Image,
+    Animated
 } from 'react-native';
 
 export default class Main extends React.Component {
-    render() {
-        return(
-            <View style={styles.container}>
-                <View>
-                    <Image style={styles.icon} source={require('../../assets/icons/school-bus-icon-256.png')} />
-                    <Text style={styles.title}>R E I</Text>
-                </View>
+    constructor(props) {
+        super(props);
 
-                <TouchableOpacity style={styles.btnEntrar}>
+        this.state = {
+            scale: new Animated.Value(0)
+        }
+    }
+
+    static navigationOptions = {
+        header: null
+    }
+
+    componentDidMount() {
+        Animated.timing(this.state.scale, { toValue: 1, duration: 1500 }).start();
+    }
+
+    render() {
+        const scale = this.state.scale;
+
+        return(
+            <SafeAreaView style={styles.container}>
+                <Animated.View style={{ transform: [{ scale }], alignItems: 'center', marginTop: 60 }}>
+                    <Image style={styles.icon} source={require('../../assets/school-bus-icon-256.png')} />
+                    <Text style={styles.title}>R E I</Text>
+                </Animated.View>
+
+                <TouchableOpacity style={[styles.button, styles.btnEntrar]} onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={[styles.textButton, { color: '#F2C94C' }]}>ENTRAR</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btnCadastrar}>
+                <TouchableOpacity style={[styles.button, styles.btnCadastrar]} onPress={() => this.props.navigation.navigate('AppStack')}>
                     <Text style={[styles.textButton, { color: '#FFFFFF' }]}>CADASTRAR</Text>
                 </TouchableOpacity>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -32,7 +52,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F2C94C',
-        alignItems: 'center'
+        // alignItems: 'center'
     },
 
     iconContainer: {
@@ -41,8 +61,8 @@ const styles = StyleSheet.create({
     },
 
     icon: {
-        width: 160,
-        height: 160
+        width: 170,
+        height: 170
     },
 
     title: {
@@ -54,12 +74,30 @@ const styles = StyleSheet.create({
         color: '#515151'
     },
 
-    btnEntrar: {
+    button: {
+        justifyContent: 'center',
+        height: 60,
 
+        borderRadius: 35,
+        marginHorizontal: 35,
+
+        shadowOffset:{  width: 0,  height: 4 },
+        shadowColor: 'black',
+        shadowOpacity: 0.5
+    },
+
+    btnEntrar: {
+        backgroundColor: '#FFFFFF',
+    	marginTop: 100
     },
 
     btnCadastrar: {
+        backgroundColor: '#F2C94C',
 
+        borderWidth: 2,
+        borderColor: '#FFFFFF',
+
+    	marginTop: 30
     },
 
     textButton: {

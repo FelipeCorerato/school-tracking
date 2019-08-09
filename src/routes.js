@@ -2,14 +2,23 @@ import React from 'react';
 import { 
     createAppContainer, 
     createStackNavigator, 
-    createSwitchNavigator
+    createSwitchNavigator,
+    createDrawerNavigator
 } from 'react-navigation';
 
+// SplashScreen
 import Splash from './pages/Splash';
 
+// Authentication Route
 import Main from './pages/Main';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
+
+// App Route
+import Mapa from './pages/Mapa';
+
+// Components
+import Menu from './components/Menu';
 
 const AuthStack = createStackNavigator(
     { 
@@ -18,18 +27,14 @@ const AuthStack = createStackNavigator(
         Cadastro
     }, 
     {
-        initialRouteName: 'Main'
-    },
-    { 
-        defaultNavigationOptions: { 
-            header: null,
-            headerTintColor: '#000', 
-            headerBackTitle: null 
+        initialRouteName: 'Main',
+        defaultNavigationOptions: {
+            header: null
         }
     }
 );
 
-const AppStack = createStackNavigator(
+const AppStackWithoutMenu = createStackNavigator(
     { 
         // MenusStack, 
         // Evento,
@@ -41,14 +46,25 @@ const AppStack = createStackNavigator(
         //         gesturesEnabled: false
         //     }            
         // }
-        Splash
+        Mapa
     }, 
     { 
-        defaultNavigationOptions: { 
+        initialRouteName: 'Mapa',
+        defaultNavigationOptions: {
             header: null
         }
     }
 );
+
+const AppStack = createDrawerNavigator(
+    {
+        AppStackWithoutMenu
+    },
+    {
+        drawerBackgroundColor: '#F2C94C', 
+        contentComponent: Menu 
+    }
+)
 
 export default createAppContainer(
     createSwitchNavigator(
@@ -59,13 +75,6 @@ export default createAppContainer(
         }, 
         {
             initialRouteName: 'Splash'
-        },
-        // {
-        //     defaultNavigationOptions: {
-        //         headerTintColor: '#000',
-        //         headerBackTitle: null,
-        //     },
-        //     // mode: 'modal'
-        // }
+        }
     )
 );

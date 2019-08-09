@@ -3,52 +3,69 @@ import {
     View,
     ActivityIndicator,
     TouchableOpacity,
-    Text
+    Text,
+    Asset
 } from 'react-native';
 import firebase from 'firebase';
 
 import { firebaseConfig } from '../config';
 
 export default class Splash extends React.Component {
-    // constructor(props) {
-    //     super(props);
+    constructor(props) {
+        super(props);
 
-    //     this.state = {
-    //         user: {}
-    //     }
-    // }
+        this.state = {
+            user: {}
+        }
+    }
 
     static navigationOptions = {
         header: null
     }
 
-    // componentWillMount() {
-    //     // Initialize Firebase
-    //     if (!firebase.apps.length) {
-    //         firebase.initializeApp(firebaseConfig);
-    //     }
-    // }
+    async componentWillMount() {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
 
-    // componentDidMount() {
-    //     // this.authListener();
-    //     this.checkIfLoggenIn();
-    // }
+		try {
+			await Expo.Font.loadAsync({
+  		        'Montserrat-Regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
+                'Montserrat-Bold': require('../../assets/fonts/Montserrat-Bold.ttf'),
+                // 'Material Icons': require('../../node-modules/@expo/vector-icons/website/src/fonts/MaterialIcons.ttf')
+			});
+            await Asset.loadAsync([
+                require('../../assets/school-bus-icon-256.png')                
+            ]);
 
-    // checkIfLoggenIn = () => {
-    //     firebase.auth().onAuthStateChanged(user => {
-    //         if (user) {
-    //             this.recuperarDados();
-    //             this.props.navigation.navigate('AppStackWithModal');
-    //         } else {
-    //             this.props.navigation.navigate('AuthStackWithModal')
-    //         }
-    //     });
-    // }
+		} catch (error) {
+			  console.log('ocorreu esse erro aqui: ', error);
+		}
+        finally {
+            this.setState({loading: false});
+        }
+    }
 
-    // recuperarDados = () => {
-    //     const user = firebase.auth().currentUser;
-    //     User.email = user.email;
-    // }
+    componentDidMount() {
+        // this.authListener();
+        this.checkIfLoggenIn();
+    }
+
+    checkIfLoggenIn = () => {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.recuperarDados();
+                this.props.navigation.navigate('AppStack');
+            } else {
+                this.props.navigation.navigate('AuthStack')
+            }
+        });
+    }
+
+    recuperarDados = () => {
+        const user = firebase.auth().currentUser;
+        // User.email = user.email;
+    }
 
     // authListener() {
     //     firebase.auth().onAuthStateChanged((user) => {
@@ -60,21 +77,15 @@ export default class Splash extends React.Component {
     //     })
     // }
 
-    // Fetch the token from storage then navigate to our appropriate place
-    // async componentDidMount() {
-    //     const user = await AsyncStorage.getItem('user');
-    //     this.props.navigation.navigate(user ? 'AppStack' : 'AuthStack');
-    // }
-
     // Render any loading content that you like here
     render() {
         return (
-            <View style={{ marginTop: 50 }}>
-                <ActivityIndicator />
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F2C94C' }}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('AuthStack')}>
-                    <Text>Proxima</Text>
+                    <ActivityIndicator size='large' color='#515151' />
                 </TouchableOpacity>
             </View>
         );
     }
 }
+
