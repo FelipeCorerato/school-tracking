@@ -18,7 +18,6 @@ export default class Cadastro extends React.Component {
 
         this.state = {
             nome: '',
-            sobrenome: '',
             email: '',
             senha: '',
             confirmSenha: '',
@@ -91,17 +90,6 @@ export default class Cadastro extends React.Component {
                         ref={component => this.nome = component}
                         onChangeText={nome => this.setState({ nome })}
                         value={this.state.nome}
-                        autoCorrect={false}
-                        onSubmitEditing={() => this.sobrenome.focus()}
-                        returnKeyType='next'    
-                    />
-
-                    <TextInput 
-                        style={styles.input}
-                        placeholder='Sobrenome'
-                        ref={component => this.sobrenome = component}
-                        onChangeText={sobrenome => this.setState({ sobrenome })}
-                        value={this.state.sobrenome}
                         autoCorrect={false}
                         onSubmitEditing={() => this.celular.focus()}
                         returnKeyType='next'    

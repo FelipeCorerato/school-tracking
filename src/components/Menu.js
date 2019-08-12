@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     },
 
     userData: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: 20
     },
 
     userDataText: {

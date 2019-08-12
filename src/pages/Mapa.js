@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     },
 
     btnMenu: {
-        marginLeft: 20
+        marginLeft: 20,
+        marginTop: 20
     }
 });
