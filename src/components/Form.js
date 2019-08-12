@@ -7,7 +7,7 @@ import {
 export default class Form extends React.Component {
     render() {
         return(
-            <View>
+            <View style={styles.container}>
                 {this.props.children}
             </View>
         )
@@ -17,7 +17,7 @@ export default class Form extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        marginHorizontal: 10
+        justifyContent: 'center',
+        paddingHorizontal: 25
     }
 });

@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import Usuario from '../models/Usuario';
 
 export default class Menu extends React.Component {
-    logout = () => {
-        // await firebase.auth().signOut();
+    handleLogout = async () => {
+        await firebase.auth().signOut();
         // await AsyncStorage.clear();
 
         this.props.navigation.navigate('Splash');
@@ -20,31 +21,41 @@ export default class Menu extends React.Component {
 
     render() {
         return(
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
                 <View style={styles.header}>
-                    <View style={styles.userData}>
+                    <SafeAreaView>
+                        <View style={styles.userData}>
+                            <Icon name='account-circle' size={85} color={'rgba(255,255,255,0.8)'} />
 
-                    </View>
+                            <View>
+                                <Text style={[styles.userDataText, { fontSize: 20 }]}>{Usuario.nome}</Text>
+                                <Text style={[styles.userDataText, { fontSize: 12 }]}>{Usuario.email}</Text>
+                            </View>
+                        </View>
 
-                    <View style={styles.fastOptions}>
-                        <TouchableOpacity>
-                            <Text>Sair</Text>
-                        </TouchableOpacity>
+                        <View style={styles.fastOptions}>
+                            <TouchableOpacity style={styles.fastOptionButton} onPress={this.handleLogout}>
+                                <Icon name='power' size={30} color='rgba(255,255,255,0.8)' />
+                                <Text style={styles.fastOptionsTitle}>Sair</Text>
+                            </TouchableOpacity>
 
-                        <TouchableOpacity>
-                            <Text>Ajustes</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity style={styles.fastOptionButton}>
+                                <Icon name='settings' size={30} color='rgba(255,255,255,0.8)' />
+                                <Text style={styles.fastOptionsTitle}>Ajustes</Text>
+                            </TouchableOpacity>
 
-                        <TouchableOpacity>
-                            <Text>Info</Text>
-                        </TouchableOpacity>
-                    </View>
+                            <TouchableOpacity style={styles.fastOptionButton}>
+                                <Icon name='information' size={30} color='rgba(255,255,255,0.8)' />
+                                <Text style={styles.fastOptionsTitle}>Info</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </SafeAreaView>
                 </View>
 
                 <View style={styles.footer}>
 
-                </View>               
-            </SafeAreaView>
+                </View>
+            </View>
         );
     }
 }
@@ -55,15 +66,38 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        backgroundColor: '#DCB747'
+        backgroundColor: '#DCB747',
+        paddingVertical: 10
     },
 
     userData: {
         flexDirection: 'row'
     },
 
+    userDataText: {
+        fontFamily: 'Montserrat-Bold',
+
+        textAlign: 'left',
+
+        color: '#FFFFFF'
+    },
+
     fastOptions: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 30,
+    },
+
+    fastOptionButton: {
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+
+    fastOptionsTitle: {
+        fontFamily: 'Montserrat-Bold', 
+        color: '#FFFFFF', 
+        textAlign: 'center'
     },
 
     footer: {

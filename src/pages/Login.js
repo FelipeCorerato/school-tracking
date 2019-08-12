@@ -8,8 +8,10 @@ import {
     StyleSheet,
     Alert
 } from 'react-native';
+import firebase from 'firebase';
 
 import Form from '../components/Form';
+import Usuario from '../models/Usuario';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -17,83 +19,74 @@ export default class Login extends React.Component {
 
         this.state = {
             email: '',
-            senha: ''
+            senha: '',
+            isAuthenticated: false
         }
     }
 
-    login = async() => {
-        if (this.state.email == '' || this.state.senha == '')
-            return Alert.alert('Preencha todos os campos!');
+    componentDidMount() {
+        if (this.state.isAuthenticated) {
+            this.props.navigation.navigate('Splash');
+        }
+    }
+
+    handleLogin = async () => {
+        if (this.state.email == '' || this.state.senha == '') {
+            Alert.alert('Campos inválidos', 'Há campos não preenchidos!');
+            return;
+        }
+
         try {
-            // const user = await FirebaseAPI.authenticate(this.state.email, this.state.password);
+            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha);
 
-            // alert(this.state.isAuthenticated);
+            var user = await firebase.auth().currentUser;
+            // await firebase.database().ref(`usuarios/${user.uid}`).on('value', function(snapshot) {
+            //     // alert(JSON.stringify(snapshot.val()));
+            //     userInfo = snapshot.val().nome;
+            //     // return User.nome = snapshot.val().nome;
+            // }.bind(this));
+            // await firebase.firestore().collection('usuarios').doc(user.uid).get().then(doc => { alert(doc.data()) })
+            // await AsyncStorage.setItem('user', user);
+            // alert(JSON.stringify(userInfo))
+            Usuario.email = user.email;
+        } catch (err) {
+            if (err.code == 'auth/invalid-email')
+                return Alert.alert('Falha no login', 'Este email não é válido!', [
+                    {
+                        text: 'OK',
+                        onPress: () => { this._email.focus() }
+                    }
+                ]);
+            if (err.code == 'auth/user-disabled')
+                return Alert.alert('Falha no login', 'Esta conta de email foi desativada!');
+            if (err.code == 'auth/user-not-found')
+                return Alert.alert('Falha no login', 'Conta de email não cadastrada!', [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            this.setState({ senha: '' });
+                            this.email.focus();
+                        }
+                    }
+                ]);
+            if (err.code == 'auth/wrong-password') {
+                return Alert.alert('Falha no login', 'Senha incorreta!', [
+                    {
+                        text: 'OK',
+                        onPress: () => { this.password.focus() }
+                    }
+                ]);
+            }
 
-            // if (this.state.isAuthenticated)
-            //     this.props.navigation.navigate('Mapa');
-
-        } catch(err) {
-            // console.log(err.toString());
+            alert(err)
         }
+
+        if (this.state.isAuthenticated) {
+            this.props.navigation.navigate('Splash');
+        }
+
+        this.setState({ isAuthenticated: false });
     }
-
-    // handleLogin = async () => {
-    //     if (this.state.email == '' || this.state.senha == '') {
-    //         Alert.alert('Campos inválidos', 'Há campos não preenchidos!');
-    //         return;
-    //     }
-
-    //     try {
-    //         await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha);
-
-    //         var user = await firebase.auth().currentUser;
-    //         await firebase.database().ref(`usuarios/${user.uid}`).on('value', function(snapshot) {
-    //             // alert(JSON.stringify(snapshot.val()));
-    //             userInfo = snapshot.val().nome;
-    //             // return User.nome = snapshot.val().nome;
-    //         }.bind(this));
-    //         // await firebase.firestore().collection('usuarios').doc(user.uid).get().then(doc => { alert(doc.data()) })
-    //         // await AsyncStorage.setItem('user', user);
-    //         // alert(JSON.stringify(userInfo))
-    //         User.email = user.email;
-    //     } catch (err) {
-    //         if (err.code == 'auth/invalid-email')
-    //             return Alert.alert('Falha no login', 'Este email não é válido!', [
-    //                 {
-    //                     text: 'OK',
-    //                     onPress: () => { this._email.focus() }
-    //                 }
-    //             ]);
-    //         if (err.code == 'auth/user-disabled')
-    //             return Alert.alert('Falha no login', 'Esta conta de email foi desativada!');
-    //         if (err.code == 'auth/user-not-found')
-    //             return Alert.alert('Falha no login', 'Conta de email não cadastrada!', [
-    //                 {
-    //                     text: 'OK',
-    //                     onPress: () => {
-    //                         this.setState({ senha: '' });
-    //                         this._email.focus();
-    //                     }
-    //                 }
-    //             ]);
-    //         if (err.code == 'auth/wrong-password') {
-    //             return Alert.alert('Falha no login', 'Senha incorreta!', [
-    //                 {
-    //                     text: 'OK',
-    //                     onPress: () => { this._password.focus() }
-    //                 }
-    //             ]);
-    //         }
-
-    //         alert(err)
-    //     }
-
-    //     if (this.state.isAuthenticated) {
-    //         this.props.navigation.navigate('Loading');
-    //     }
-
-    //     this.setState({ isAuthenticated: false });
-    // }
 
     render() {
         return(
@@ -102,6 +95,7 @@ export default class Login extends React.Component {
                     <TextInput 
                         style={styles.input} 
                         placeholder='Email'
+                        ref={component => this.email = component}
                         onChangeText={email => this.setState({ email })}
                         value={this.state.email}
                         autoCorrect={false}
@@ -120,11 +114,11 @@ export default class Login extends React.Component {
                         autoCorrect={false}
                         autoCapitalize='none'
                         secureTextEntry={true}
-                        onSubmitEditing={this.login}
+                        onSubmitEditing={this.handleLogin}
                         returnKeyType='go'    
                     />
 
-                    <TouchableOpacity style={styles.btnEntrar} onPress={this.login}>
+                    <TouchableOpacity style={styles.btnEntrar} onPress={this.handleLogin}>
                         <Text style={styles.btnEntrarText}>ENTRAR</Text>
                     </TouchableOpacity>
                 </Form>
@@ -142,14 +136,16 @@ const styles = StyleSheet.create({
     input: {
         height: 50,
         borderRadius: 50,
+        marginTop: 15,
+        paddingHorizontal: 20,
 
         fontSize: 18,
         fontFamily: 'Montserrat-Regular',
 
         backgroundColor: 'rgba(255,255,255,0.8)',
-		color: 'rgba(51,51,51,0.8)',
+		color: 'rgb(51,51,51)',
 
-        marginHorizontal: 25
+        // marginHorizontal: 25
     },
 
     btnEntrar: {
@@ -161,7 +157,7 @@ const styles = StyleSheet.create({
         borderRadius: 35,
 
         marginTop: 100,
-        marginHorizontal: 40,
+        // marginHorizontal: 40,
 
         shadowOffset:{  width: 0,  height: 4,  },
         shadowColor: 'black',

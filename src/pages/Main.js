@@ -40,7 +40,7 @@ export default class Main extends React.Component {
                     <Text style={[styles.textButton, { color: '#F2C94C' }]}>ENTRAR</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={[styles.button, styles.btnCadastrar]} onPress={() => this.props.navigation.navigate('AppStack')}>
+                <TouchableOpacity style={[styles.button, styles.btnCadastrar]} onPress={() => this.props.navigation.navigate('Cadastro')}>
                     <Text style={[styles.textButton, { color: '#FFFFFF' }]}>CADASTRAR</Text>
                 </TouchableOpacity>
             </SafeAreaView>
