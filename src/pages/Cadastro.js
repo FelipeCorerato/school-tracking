@@ -27,8 +27,8 @@ export default class Cadastro extends React.Component {
     }
 
     handleCadastro = async () => {
-        // if (this.state.nome == '' || this.state.sobrenome == '' || this.state.email == ''  || this.state.senha == '' || this.state.confirmSenha == '' || this.state.celular == '')
-        //     return Alert.alert('Campos inválidos', 'Há campos não preenchidos!');
+        if (this.state.nome == '' || this.state.email == ''  || this.state.senha == '' || this.state.confirmSenha == '' || this.state.celular == '')
+            return Alert.alert('Campos inválidos', 'Há campos não preenchidos!');
 
         if (this.state.senha != this.state.confirmSenha)
             return Alert.alert('Confirmação inválida', 'Sua senha e confimação não coincidem!');

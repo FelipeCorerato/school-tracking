@@ -19,6 +19,10 @@ export default class Mapa extends React.Component {
         }
     }
 
+    static navigationOptions = {
+        header: null
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.container}>

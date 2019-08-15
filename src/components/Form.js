@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-    View,
+    KeyboardAvoidingView,
     StyleSheet
 } from 'react-native'
 
 export default class Form extends React.Component {
     render() {
         return(
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container} behavior='padding'>
                 {this.props.children}
-            </View>
-        )
+            </KeyboardAvoidingView>
+        );
     }
 }
 

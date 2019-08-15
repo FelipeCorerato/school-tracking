@@ -16,6 +16,7 @@ import Cadastro from './pages/Cadastro';
 
 // App Route
 import Mapa from './pages/Mapa';
+import Chat from './pages/Chat';
 
 // Components
 import Menu from './components/Menu';
@@ -46,12 +47,14 @@ const AppStackWithoutMenu = createStackNavigator(
         //         gesturesEnabled: false
         //     }            
         // }
-        Mapa
+        Mapa,
+        Chat
     }, 
     { 
         initialRouteName: 'Mapa',
         defaultNavigationOptions: {
-            header: null
+            headerTintColor: '#000',
+            headerBackTitle: null
         }
     }
 );
