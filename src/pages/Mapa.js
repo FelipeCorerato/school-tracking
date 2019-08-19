@@ -4,25 +4,29 @@ import {
     SafeAreaView,
     TouchableOpacity,
     Text,
+    Animated,
     StyleSheet
 } from 'react-native';
+import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Map from '../components/Map';
+
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 export default class Mapa extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            
+
         }
     }
 
     static navigationOptions = {
         header: null
     }
-
+    
     render() {
         return (
             <SafeAreaView style={styles.container}>

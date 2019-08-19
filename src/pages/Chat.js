@@ -6,6 +6,7 @@ import {
     Text,
     TouchableOpacity,
     KeyboardAvoidingView,
+    FlatList,
     StyleSheet
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -15,6 +16,9 @@ export default class Chat extends React.Component {
         super(props);
 
         this.state = {
+            destinatario : {
+
+            },
             mensagem: ''
         }
     }
@@ -31,28 +35,34 @@ export default class Chat extends React.Component {
 
     render() {
         return (
-            // <SafeAreaView style={styles.container}>
-                <KeyboardAvoidingView style={styles.container} behavior='padding'>
-                    <View style={styles.chat}>
-                        <Text>chat</Text>
-                    </View>
+            <View style={styles.container}>
+                {/* <View style={styles.chat}>
+                    <Text>chat</Text>
+                </View> */}
+                <FlatList 
+                    style={{ padding: 10, height: '80%' }}
+                    // data={this.state.messageList}
+                    // renderItem={this.renderRow}
+                    keyExtractor={(item, index) => index.toString()}
+                />
 
-                    <SafeAreaView style={styles.keyboardBox}>
-                        <TextInput 
-                            style={styles.textBox} 
-                            placeholder='mensagem' 
-                            value={this.state.mensagem}
-                            onChangeText={mensagem => this.setState({ mensagem })}
-                            onSubmitEditing={this.sendMessage}
-                            returnKeyType='send'
-                        />
+                <SafeAreaView>
+                <View style={styles.keyboardBox}>
+                    <TextInput 
+                        style={styles.textBox} 
+                        placeholder='mensagem' 
+                        value={this.state.mensagem}
+                        onChangeText={mensagem => this.setState({ mensagem })}
+                        onSubmitEditing={this.sendMessage}
+                        returnKeyType='send'
+                    />
 
-                        <TouchableOpacity onPress={this.sendMessage}>
-                            <Icon name='send' size={25} color='#000' />
-                        </TouchableOpacity>
-                    </SafeAreaView>
-                </KeyboardAvoidingView>
-            // </SafeAreaView>
+                    <TouchableOpacity style={{ marginLeft: 5 }} onPress={this.sendMessage}>
+                        <Icon name='send' size={25} color='#000' />
+                    </TouchableOpacity>
+                </View>
+                </SafeAreaView>
+            </View>
         );
     }
 }
@@ -60,7 +70,7 @@ export default class Chat extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'red'
+        backgroundColor: '#f3f3f3'
     },
 
     chat: {
@@ -78,24 +88,39 @@ const styles = StyleSheet.create({
         borderWidth: 0.2
     },
 
+    mensagemEnviada: {
+        backgroundColor: 'red'
+    },
+
+    mensagemRecebida: {
+        backgroundColor: 'blue'
+    },
+
     keyboardBox: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         height: 50,
         backgroundColor: '#f3f3f3',
 
         alignItems: 'center',  
-        justifyContent: 'space-between',      
+        justifyContent: 'space-between',  
 
         paddingVertical: 5,
         paddingHorizontal: 10,
 
         borderTopRightRadius: 10,
-        borderTopLeftRadius: 10
+        borderTopLeftRadius: 10,
+
+        borderTopColor: '#B9B9B9',
+        borderTopWidth: 0.8,
+        borderRightColor: '#B9B9B9',
+        borderRightWidth: 0.8,
+        borderLeftColor: '#B9B9B9',
+        borderLeftWidth: 0.8
     },
     
     textBox: {
-        flex: 2,
+        width: '90%',
         height: 35,
 
         backgroundColor: '#fff',
