@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Map from '../components/Map';
+import BottomDrawer from '../components/BottomDrawer';
 
 export default class Mapa extends React.Component {
     constructor(props) {
@@ -32,6 +33,12 @@ export default class Mapa extends React.Component {
                 <TouchableOpacity style={styles.btnMenu} onPress={() => this.props.navigation.openDrawer()}>
                     <Icon name='menu' size={40} color={'rgba(51,51,51,0.8)'} />
                 </TouchableOpacity>
+
+                <BottomDrawer containerHeight={300} offset={49} startUp={false}>
+                    <View>
+                        <Text>Bottom Drawer</Text>
+                    </View>
+                </BottomDrawer>
             </SafeAreaView>
         )
     }
