@@ -25,6 +25,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "A final year undergraduate project from students of the Technical Highschool of UNICAMP. This app is a scholar tracking system.",
+    "githubUrl": "https://github.com/FelipeCorerato/school-tracking"
   }
 }

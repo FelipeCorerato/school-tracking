@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Text,
     Animated,
+    PixelRatio,
     StyleSheet
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -31,10 +32,10 @@ export default class Mapa extends React.Component {
                 <Map ref={map => this.map = map} />
 
                 <TouchableOpacity style={styles.btnMenu} onPress={() => this.props.navigation.openDrawer()}>
-                    <Icon name='menu' size={40} color={'rgba(51,51,51,0.8)'} />
+                    <Icon name='menu' size={40} color={'rgba(51, 51, 51, 0.8)'} />
                 </TouchableOpacity>
 
-                <BottomDrawer containerHeight={300} offset={49} startUp={false}>
+                <BottomDrawer style={{ width: '100%', borderRadius: 30, alignItems: 'center' }} containerHeight={300} offset={49} startUp={false}>
                     <View>
                         <Text>Bottom Drawer</Text>
                     </View>
@@ -52,6 +53,6 @@ const styles = StyleSheet.create({
 
     btnMenu: {
         marginLeft: 20,
-        marginTop: 20
+        marginTop: 30
     }
 });
