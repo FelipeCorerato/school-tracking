@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 5241,
-  "expoServerNgrokUrl": "https://8i-4a5.fcorerato.school-tracking.exp.direct",
-  "packagerNgrokUrl": "https://packager.8i-4a5.fcorerato.school-tracking.exp.direct",
-  "ngrokPid": 5400,
+  "packagerPid": 16596,
+  "expoServerNgrokUrl": "https://8i-4a5.anonymous.school-tracking.exp.direct",
+  "packagerNgrokUrl": "https://packager.8i-4a5.anonymous.school-tracking.exp.direct",
+  "ngrokPid": 16624,
   "webpackServerPort": null
 }

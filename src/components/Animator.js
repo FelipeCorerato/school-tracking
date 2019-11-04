@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   PanResponder,
   Animated,
@@ -10,7 +10,7 @@ import { DOWN_STATE, UP_STATE } from './BottomDrawer';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export default class Animator extends Component {
+export default class Animator extends React.Component {
   constructor(props) {
     super(props);
 
@@ -104,12 +104,14 @@ const styles = {
     height: height + Math.sqrt(SCREEN_HEIGHT),
     backgroundColor: color,
   }),
+
   roundedEdges: rounded => {
     return rounded == true && {
       borderTopLeftRadius: 10,
       borderTopRightRadius: 10,
     }
   },
+
   shadow: shadow => {
     return shadow == true && {
       shadowColor: '#CECDCD',

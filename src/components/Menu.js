@@ -39,12 +39,12 @@ export default class Menu extends React.Component {
                                 <Text style={styles.fastOptionsTitle}>Sair</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.fastOptionButton} onPress={() => {}}>
+                            <TouchableOpacity style={styles.fastOptionButton} onPress={() => this.props.navigation.navigate('Ajustes')}>
                                 <Icon name='settings' size={30} color='rgba(255,255,255,0.8)' />
                                 <Text style={styles.fastOptionsTitle}>Ajustes</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.fastOptionButton} onPress={() => this.props.navigation.navigate('Chat')}>
+                            <TouchableOpacity style={styles.fastOptionButton} onPress={() => this.props.navigation.navigate('Info')}>
                                 <Icon name='information' size={30} color='rgba(255,255,255,0.8)' />
                                 <Text style={styles.fastOptionsTitle}>Info</Text>
                             </TouchableOpacity>

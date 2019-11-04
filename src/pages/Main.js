@@ -9,6 +9,10 @@ import {
     Animated
 } from 'react-native';
 
+import SplashAnimation from '../components/SplashAnimation';
+
+const bus = require('../../assets/img/icons/school-bus-icon-256.png');
+
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -30,9 +34,11 @@ export default class Main extends React.Component {
         const scale = this.state.scale;
 
         return(
+            <>
+            <SplashAnimation />
             <SafeAreaView style={styles.container}>
                 <Animated.View style={{ transform: [{ scale }], alignItems: 'center', marginTop: 60 }}>
-                    <Image style={styles.icon} source={require('../../assets/school-bus-icon-256.png')} />
+                    <Image style={styles.icon} source={bus} />
                     <Text style={styles.title}>R E I</Text>
                 </Animated.View>
 
@@ -44,6 +50,7 @@ export default class Main extends React.Component {
                     <Text style={[styles.textButton, { color: '#FFFFFF' }]}>CADASTRAR</Text>
                 </TouchableOpacity>
             </SafeAreaView>
+            </>
         );
     }
 }

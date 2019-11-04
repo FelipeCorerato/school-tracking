@@ -17,6 +17,8 @@ import Cadastro from './pages/Cadastro';
 // App Route
 import Mapa from './pages/Mapa';
 import Chat from './pages/Chat';
+import Ajustes from './pages/Ajustes';
+import Info from './pages/Info';
 
 // Components
 import Menu from './components/Menu';
@@ -48,7 +50,9 @@ const AppStackWithoutMenu = createStackNavigator(
         //     }            
         // }
         Mapa,
-        Chat
+        Chat,
+        Ajustes,
+        Info
     }, 
     { 
         initialRouteName: 'Mapa',
