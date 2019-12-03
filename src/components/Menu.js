@@ -27,7 +27,7 @@ export default class Menu extends React.Component {
                         <View style={styles.userData}>
                             <Icon name='account-circle' size={85} color={'rgba(255,255,255,0.8)'} />
 
-                            <View>
+                            <View style={{ marginTop: 10 }}>
                                 <Text style={[styles.userDataText, { fontSize: 20 }]}>{Usuario.nome}</Text>
                                 <Text style={[styles.userDataText, { fontSize: 12 }]}>{Usuario.email}</Text>
                             </View>

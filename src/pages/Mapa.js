@@ -11,8 +11,10 @@ import {
     Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Marker, Callback } from 'react-native-maps';
 
 import Map from '../components/Map';
+import Directions from '../components/Directions';
 import BottomDrawer from '../components/BottomDrawer';
 
 export default class Mapa extends React.Component {
@@ -27,13 +29,17 @@ export default class Mapa extends React.Component {
         {
           id: 1,
           nome: 'João Henri',
-          latitude: -22.8911732,
-          longitude: -47.0382388,
+          region: {
+            latitude: -22.8911732,
+            longitude: -47.0382388,
+          },
           escola: {
             id: 1,
             nome: 'Instituto Educacional Imaculada',
-            latitude: -22.8899812,
-            longitude: -47.0623459
+            region: {
+              latitude: -22.8899812,
+              longitude: -47.0623459
+            }
           },
           motorista: {
             id: 1,
@@ -44,34 +50,42 @@ export default class Mapa extends React.Component {
         {
           id: 2,
           nome: 'Artur Morais',
-          latitude: -22.8614771,
-          longitude: -47.0606648,
+          region: {
+            latitude: -22.8614771,
+            longitude: -47.0606648,
+          },
           escola: {
             id: 2,
             nome: 'Colégio Técnico da Unicamp - COTUCA',
-            latitude: -22.864420,
-            longitude: -47.049530
+            region: {
+              latitude: -22.864420,
+              longitude: -47.049530
+            }
           },
           motorista: {
             id: 1,
-            nome: 'José da Silva',
+            nome: 'Nicholas Patapoff',
             contato: ''
           }
         },
         {
           id: 3,
           nome: 'Felipe Corerato',
-          latitude: -22.8712874,
-          longitude: -47.0406504,
+          region: {
+            latitude: -22.8712874,
+            longitude: -47.0406504,
+          },
           escola: {
             id: 3,
             nome: 'Colégio Anglo Campinas - Taquaral',
-            latitude: -22.8665641,
-            longitude: -47.0491057
+            region: {
+              latitude: -22.8665641,
+              longitude: -47.0491057
+            }
           },
           motorista: {
             id: 1,
-            nome: 'José da Silva',
+            nome: 'Fabio Minguini',
             contato: ''
           }
         }
@@ -89,15 +103,61 @@ export default class Mapa extends React.Component {
     
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <Map ref={map => this.map = map} />
+      <View style={styles.container}>
+        <Map ref={map => this.map = map} style={styles.map}>
+          {this.state.filhos.map(filho => (
+            <>
+            {/*marcadores de filhos*/}
+            <Marker 
+              key={filho.id}
+              coordinate={{
+                latitude: filho.region.latitude,
+                longitude: filho.region.longitude
+              }}
+              title={filho.nome}
+            >
+              <Icon name={'account-circle'} size={35} color={'rgba(51,51,51,1)'} />
+            </Marker>
 
-        <TouchableOpacity style={styles.btnMenu} onPress={() => this.props.navigation.openDrawer()}>
-            <Icon name='menu' size={40} color={'rgba(51, 51, 51, 0.8)'} />
-        </TouchableOpacity>
+            {/*marcadores de escola*/}
+            <Marker 
+              key={filho.escola.id}
+              coordinate={{
+                latitude: filho.escola.region.latitude,
+                longitude: filho.escola.region.longitude
+              }}
+              title={filho.escola.nome} 
+            >
+              <Icon name={'school'} size={30} color={'rgba(51,51,51,1)'} />
+            </Marker>
+
+            <Directions 
+              key={filho.id}
+              origin={filho.region}
+              destination={filho.escola.region}
+              onReady={result => {
+                this.map.mapView.fitToCoordinates(result.coordinates, {
+                  edgePadding: {
+                    right: 50,
+                    left: 50,
+                    top: 50,
+                    bottom: 50
+                  }
+                });
+              }}
+            />
+            </>
+          ))}
+        </Map>
+
+        <SafeAreaView>
+          <TouchableOpacity style={styles.btnMenu} onPress={() => this.props.navigation.openDrawer()}>
+              <Icon name='menu' size={40} color={'rgba(51, 51, 51, 0.8)'} />
+          </TouchableOpacity>
+        </SafeAreaView>
 
         <BottomDrawer style={styles.bottomDrawer} containerHeight={300} 
-            offset={49} 
+            offset={30} 
             startUp={false}
             ref={bottomDrawer => this.bottomDrawer = bottomDrawer}
         >
@@ -111,7 +171,7 @@ export default class Mapa extends React.Component {
               const filho = (scrolled > 0)
                   ? scrolled / Dimensions.get('window').width
                   : 0;
-              const { latitude, longitude } = this.state.filhos[filho];
+              const { latitude, longitude } = this.state.filhos[filho].region;
 
               this.map.mapView.animateToRegion({
                   latitude,
@@ -131,8 +191,12 @@ export default class Mapa extends React.Component {
                     </View>
 
                     <View style={styles.previewTexts}>
-                        <Text style={styles.textFilho}>{filho.nome}</Text>
-                        <Text style={styles.textMotorista}>Motorista: {filho.motorista.nome}</Text>
+                        <Text style={styles.textFilho}>
+                          {filho.nome.length < 18 ? `${filho.nome}` : `${filho.nome.substring(0, 15)}...`}
+                        </Text>
+                        <Text style={styles.textMotorista}>
+                          Motorista: {filho.motorista.nome.length < 18 ? `${filho.motorista.nome}` : `${filho.motorista.nome.substring(0, 15)}...`}
+                        </Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -151,7 +215,10 @@ export default class Mapa extends React.Component {
                   </View>
 
                   <View style={styles.optionContainer}>
-                    <TouchableOpacity style={styles.iconContainer} onPress={ () => this.props.navigation.navigate('Chat')}>
+                    <TouchableOpacity 
+                      style={styles.iconContainer} 
+                      onPress={ () => this.props.navigation.navigate('Chat', { motorista: filho.motorista.nome })}
+                    >
                       <Icon style={styles.icon}
                         name={'message'}
                         size={40}
@@ -178,7 +245,7 @@ export default class Mapa extends React.Component {
             ))}
           </ScrollView>
         </BottomDrawer>
-      </SafeAreaView>
+      </View>
     )
   }
 }
@@ -189,9 +256,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3f3f3'
   },
 
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
+
   btnMenu: {
-    marginLeft: 20,
-    marginTop: 30
+    marginLeft: 20
   },
 
   bottomDrawer: {
@@ -261,7 +335,7 @@ const styles = StyleSheet.create({
     },
     textMotorista: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: 22,
+        fontSize: 21,
 
         textAlign: 'left',
 

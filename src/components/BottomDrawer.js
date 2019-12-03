@@ -9,8 +9,10 @@ import {
 import Animator from './Animator';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-export const DOWN_STATE = 0
-export const UP_STATE = 1
+//export const DOWN_STATE = 0
+//export const UP_STATE = 1
+const DOWN_STATE = 0
+const UP_STATE = 1
 
 export default class BottomDrawer extends Component {
   static propTypes = {

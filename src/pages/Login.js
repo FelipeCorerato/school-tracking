@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    View,
     SafeAreaView,
     TextInput,
     TouchableOpacity,
@@ -40,14 +39,6 @@ export default class Login extends React.Component {
             await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha);
 
             var user = await firebase.auth().currentUser;
-            // await firebase.database().ref(`usuarios/${user.uid}`).on('value', function(snapshot) {
-            //     // alert(JSON.stringify(snapshot.val()));
-            //     userInfo = snapshot.val().nome;
-            //     // return User.nome = snapshot.val().nome;
-            // }.bind(this));
-            // await firebase.firestore().collection('usuarios').doc(user.uid).get().then(doc => { alert(doc.data()) })
-            // await AsyncStorage.setItem('user', user);
-            // alert(JSON.stringify(userInfo))
             Usuario.email = user.email;
         } catch (err) {
             if (err.code == 'auth/invalid-email')

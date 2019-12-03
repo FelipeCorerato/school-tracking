@@ -5,10 +5,13 @@ import {
   Dimensions,
   StyleSheet
 } from 'react-native';
-import { DOWN_STATE, UP_STATE } from './BottomDrawer';
+//import { DOWN_STATE, UP_STATE } from './BottomDrawer';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
+
+const DOWN_STATE = 0
+const UP_STATE = 1
 
 export default class Animator extends React.Component {
   constructor(props) {

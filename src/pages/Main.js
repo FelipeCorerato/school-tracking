@@ -36,6 +36,7 @@ export default class Main extends React.Component {
         return(
             <>
             <SplashAnimation />
+            
             <SafeAreaView style={styles.container}>
                 <Animated.View style={{ transform: [{ scale }], alignItems: 'center', marginTop: 60 }}>
                     <Image style={styles.icon} source={bus} />

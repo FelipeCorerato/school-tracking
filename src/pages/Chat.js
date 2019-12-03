@@ -23,9 +23,11 @@ export default class Chat extends React.Component {
         }
     }
 
-    static navigationOptions = {
-        headerTitle: 'Felipe Corerato',
-        headerRight: <Icon name='account-circle' size={35} color='#000' style={{ marginRight: 5 }} />
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: navigation.getParam('motorista', {}),
+            headerRight: <Icon name='account-circle' size={35} color='#000' style={{ marginRight: 5 }} />
+        }
     }
 
     sendMessage = () => {
@@ -36,9 +38,6 @@ export default class Chat extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                {/* <View style={styles.chat}>
-                    <Text>chat</Text>
-                </View> */}
                 <FlatList 
                     style={{ padding: 10, height: '80%' }}
                     // data={this.state.messageList}
